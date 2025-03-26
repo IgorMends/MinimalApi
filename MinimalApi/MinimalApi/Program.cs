@@ -1,9 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configuração do banco de dados MySQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySQL(connectionString));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseHttpsRedirection();
+
+
+
+// Mapear os endpoints
+app.MapNotaEndpoints();
 
 app.Run();
